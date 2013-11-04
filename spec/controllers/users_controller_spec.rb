@@ -12,15 +12,13 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe UsersController do
+  let(:admin) { FactoryGirl.build_stubbed(:admin) }
+
   before(:each) do
-    @controller.stub!(:require_admin).and_return(true)
-    @controller.stub!(:check_if_login_required)
-    @controller.stub!(:set_localization)
     @global_roles = [mock_model(GlobalRole), mock_model(GlobalRole)]
-    GlobalRole.stub!(:all).and_return(@global_roles)
-    user_mock = mock_model User
-    user_mock.stub!(:logged?).and_return(true)
-    User.stub!(:find).with(any_args()).and_return(user_mock)
+    GlobalRole.stub(:all).and_return(@global_roles)
+
+    User.stub(:current).and_return(admin)
 
     disable_log_requesting_user
   end
@@ -28,6 +26,8 @@ describe UsersController do
   describe "get" do
     before :each do
       @params = {"id" => "1"}
+      # disables testing the find_user method as this is tested within the core
+      @controller.should_receive(:find_user)
     end
 
     describe :edit do

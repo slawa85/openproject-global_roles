@@ -34,7 +34,7 @@ describe GlobalRole do
     describe "WITH available global permissions defined" do
       before (:each) do
         @permission_options = [:perm1, :perm2, :perm3]
-        Redmine::AccessControl.stub!(:global_permissions).and_return(@permission_options)
+        Redmine::AccessControl.stub(:global_permissions).and_return(@permission_options)
       end
 
       describe :setable_permissions do
@@ -49,10 +49,10 @@ describe GlobalRole do
 
       if costs_plugin_loaded?
         @perm = Object.new
-        Redmine::AccessControl.stub!(:permission).and_return @perm
-        @perm.stub!(:inherited_by).and_return([])
-        @perm.stub!(:name).and_return(:perm)
-        @perm.stub!(:inherits).and_return([])
+        Redmine::AccessControl.stub(:permission).and_return @perm
+        @perm.stub(:inherited_by).and_return([])
+        @perm.stub(:name).and_return(:perm)
+        @perm.stub(:inherits).and_return([])
       end
     end
 
@@ -130,7 +130,7 @@ describe GlobalRole do
       before (:each) do
         @role = GlobalRole.new
         @permission_options = [:perm1, :perm2, :perm3]
-        Redmine::AccessControl.stub!(:global_permissions).and_return(@permission_options)
+        Redmine::AccessControl.stub(:global_permissions).and_return(@permission_options)
       end
 
       describe :setable_permissions do
@@ -157,8 +157,8 @@ describe GlobalRole do
     end
 
     describe :assignable= do
-      it {lambda {@role.assignable = true}.should raise_error ArgumentError}
-      it {lambda {@role.assignable = false}.should_not raise_error ArgumentError}
+      it {lambda {@role.assignable = true}.should raise_error}
+      it {lambda {@role.assignable = false}.should_not raise_error }
     end
 
     describe :assignable_to? do

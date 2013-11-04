@@ -12,21 +12,21 @@
 require File.dirname(__FILE__) + '/../spec_helper'
 
 describe PrincipalRolesController do
+  let(:admin) { FactoryGirl.build_stubbed(:admin) }
+
   before(:each) do
-    @controller.stub!(:require_admin).and_return(true)
-    @controller.stub!(:check_if_login_required).and_return(true)
-    @controller.stub!(:set_localization).and_return(true)
+    User.stub(:current).and_return(admin)
 
     @principal_role = mock_model PrincipalRole
 
     if privacy_plugin_loaded?
-      @principal_role.stub!(:privacy_unnecessary=)
-      @principal_role.stub!(:valid?).and_return(true)
-      @principal_role.stub!(:privacy_statement_necessary?).and_return(false)
+      @principal_role.stub(:privacy_unnecessary=)
+      @principal_role.stub(:valid?).and_return(true)
+      @principal_role.stub(:privacy_statement_necessary?).and_return(false)
     end
 
-    @principal_role.stub!(:id).and_return(23)
-    PrincipalRole.stub!(:find).and_return @principal_role
+    @principal_role.stub(:id).and_return(23)
+    PrincipalRole.stub(:find).and_return @principal_role
     disable_flash_sweep
     disable_log_requesting_user
   end
@@ -46,19 +46,19 @@ describe PrincipalRolesController do
         describe "SUCCESS" do
           before :each do
             @global_role = mock_model(GlobalRole)
-            @global_role.stub!(:id).and_return(42)
-            Role.stub!(:find).and_return([@global_role])
-            PrincipalRole.stub!(:new).and_return(@principal_role)
+            @global_role.stub(:id).and_return(42)
+            Role.stub(:find).and_return([@global_role])
+            PrincipalRole.stub(:new).and_return(@principal_role)
             @user = mock_model User
-            @user.stub!(:valid?).and_return(true)
-            @user.stub!(:logged?).and_return(true)
-            Principal.stub!(:find).and_return(@user)
-            @principal_role.stub!(:role=)
-            @principal_role.stub!(:role).and_return(@global_role)
-            @principal_role.stub!(:principal_id=)
-            @principal_role.stub!(:save)
-            @principal_role.stub!(:role_id).and_return(@global_role.id)
-            @principal_role.stub!(:valid?).and_return(true)
+            @user.stub(:valid?).and_return(true)
+            @user.stub(:logged?).and_return(true)
+            Principal.stub(:find).and_return(@user)
+            @principal_role.stub(:role=)
+            @principal_role.stub(:role).and_return(@global_role)
+            @principal_role.stub(:principal_id=)
+            @principal_role.stub(:save)
+            @principal_role.stub(:role_id).and_return(@global_role.id)
+            @principal_role.stub(:valid?).and_return(true)
           end
 
           describe "js" do
@@ -91,13 +91,13 @@ describe PrincipalRolesController do
 
     describe :update do
       before(:each) do
-        @principal_role.stub!(:update_attributes)
+        @principal_role.stub(:update_attributes)
       end
 
       describe "SUCCESS" do
         describe "js" do
           before :each do
-            @principal_role.stub!(:valid?).and_return(true)
+            @principal_role.stub(:valid?).and_return(true)
 
             response_should_render :replace,
                                   "principal_role-#{@principal_role.id}",
@@ -114,7 +114,7 @@ describe PrincipalRolesController do
       describe "FAILURE" do
         describe "js" do
           before :each do
-            @principal_role.stub!(:valid?).and_return(false)
+            @principal_role.stub(:valid?).and_return(false)
             response_should_render :insert_html,
                                    :top,
                                    "tab-content-global_roles",
@@ -131,11 +131,11 @@ describe PrincipalRolesController do
 
   describe :delete do
     before :each do
-      @principal_role.stub!(:principal_id).and_return(1)
+      @principal_role.stub(:principal_id).and_return(1)
       @user = mock_model User
-      @user.stub!(:logged?).and_return(true)
+      @user.stub(:logged?).and_return(true)
       Principal.stub(:find).and_return(@user)
-      @principal_role.stub!(:destroy)
+      @principal_role.stub(:destroy)
       @params = {"id" => "1"}
     end
 

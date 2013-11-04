@@ -29,7 +29,7 @@ describe PrincipalRole do
 
     describe "role not assignable to user" do
       before :each do
-        @principal_role.role.stub!(:assignable_to?).and_return(false)
+        @principal_role.role.stub(:assignable_to?).and_return(false)
       end
 
       it { @principal_role.valid?.should be_false }
@@ -39,7 +39,7 @@ describe PrincipalRole do
 
     describe "role assignable to user" do
       before(:each) do
-        @principal_role.role.stub!(:assignable_to?).and_return(true)
+        @principal_role.role.stub(:assignable_to?).and_return(true)
       end
 
       it { @principal_role.valid?.should be_true }

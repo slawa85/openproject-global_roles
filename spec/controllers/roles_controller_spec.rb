@@ -13,7 +13,7 @@ require File.expand_path(File.dirname(__FILE__) + "/../spec_helper")
 
 describe RolesController do
   before (:each) do
-    @controller.stub!(:check_if_login_required)
+    @controller.stub(:check_if_login_required)
     @controller.should_receive(:require_admin)
     disable_flash_sweep
   end
@@ -75,10 +75,10 @@ describe RolesController do
     describe "VERB", :new do
       before (:each) do
         @member_role = mocks_for_creating Role
-        GlobalRole.stub!(:setable_permissions).and_return([:perm1, :perm2, :perm3])
+        GlobalRole.stub(:setable_permissions).and_return([:perm1, :perm2, :perm3])
         @non_member_role = mock_model Role
         mock_permissions_on @non_member_role
-        Role.stub!(:non_member).and_return(@non_member_role)
+        Role.stub(:non_member).and_return(@non_member_role)
 
         mock_role_find
         get "new"
@@ -102,7 +102,7 @@ describe RolesController do
       describe "WITH member_role id" do
         before (:each) do
           @params = {"id" => "1"}
-          Role.stub!(:find).and_return(@member_role)
+          Role.stub(:find).and_return(@member_role)
         end
 
         describe "RESULT" do
@@ -126,8 +126,8 @@ describe RolesController do
       @member_role = mocks_for_creating Role
       @global_role = mocks_for_creating GlobalRole
       mock_role_find
-      Role.stub!(:find).with("1").and_return(@member_role)
-      Role.stub!(:find).with("2").and_return(@global_role)
+      Role.stub(:find).with("1").and_return(@member_role)
+      Role.stub(:find).with("2").and_return(@global_role)
     end
 
     describe "VERB", :create do
@@ -143,8 +143,8 @@ describe RolesController do
           describe "success" do
             before(:each) do
               Role.should_receive(:new).with(@params["role"]).and_return(@member_role)
-              @member_role.stub!(:save).and_return(true)
-              @member_role.stub!(:errors).and_return([])
+              @member_role.stub(:save).and_return(true)
+              @member_role.stub(:errors).and_return([])
             end
 
             describe "html" do
@@ -160,8 +160,8 @@ describe RolesController do
           describe "failure" do
             before(:each) do
               Role.should_receive(:new).with(@params["role"]).and_return(@member_role)
-              @member_role.stub!(:save).and_return(false)
-              @member_role.stub!(:errors).and_return(["something is wrong"])
+              @member_role.stub(:save).and_return(false)
+              @member_role.stub(:errors).and_return(["something is wrong"])
             end
 
             describe "html" do
@@ -188,7 +188,7 @@ describe RolesController do
           describe "success" do
             before(:each) do
               GlobalRole.should_receive(:new).with(@params["role"]).and_return(@global_role)
-              @global_role.stub!(:save).and_return(true)
+              @global_role.stub(:save).and_return(true)
             end
 
             describe "html" do
@@ -201,7 +201,7 @@ describe RolesController do
           describe "failure" do
             before(:each) do
               GlobalRole.should_receive(:new).with(@params["role"]).and_return(@global_role)
-              @global_role.stub!(:save).and_return(false)
+              @global_role.stub(:save).and_return(false)
             end
 
             describe "html" do
@@ -262,7 +262,7 @@ describe RolesController do
           describe "html" do
             before (:each) do
               @role.should_receive(:update_attributes).with(@params["role"]).and_return(true)
-              @role.stub!(:errors).and_return([])
+              @role.stub(:errors).and_return([])
               post :update, @params
             end
 
@@ -276,7 +276,7 @@ describe RolesController do
           describe "html" do
             before(:each) do
               @role.should_receive(:update_attributes).with(@params["role"]).and_return(false)
-              @role.stub!(:errors).and_return(["something is wrong"])
+              @role.stub(:errors).and_return(["something is wrong"])
               post :update, @params
             end
 
