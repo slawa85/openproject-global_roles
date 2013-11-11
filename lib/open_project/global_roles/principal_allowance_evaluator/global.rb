@@ -31,8 +31,10 @@ class OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global < ChiliProje
     User.joins(scope.join_sources)
   end
 
-  def condition(action, project)
-    roles_table[:permissions].matches("%#{action}%")
+  def condition(condition, action, project)
+    additional_condition = roles_table[:permissions].matches("%#{action}%")
+
+    condition.or(additional_condition)
   end
 
   private
