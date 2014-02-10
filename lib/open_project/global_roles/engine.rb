@@ -88,8 +88,6 @@ module OpenProject::GlobalRoles
       # Helper Patches
       require_dependency 'open_project/global_roles/patches/roles_helper_patch'
       require_dependency 'open_project/global_roles/patches/users_helper_patch'
-
-      User.register_allowance_evaluator OpenProject::GlobalRoles::PrincipalAllowanceEvaluator::Global
     end
   end
 end
