@@ -15,3 +15,8 @@ FactoryGirl.define do
     pr.association :principal, :factory => :user
   end
 end
+
+FactoryGirl.define do
+  factory :empty_principal_role, :class => PrincipalRole do |pr|
+  end
+end

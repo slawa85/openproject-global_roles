@@ -68,6 +68,9 @@ module OpenProject::GlobalRoles
       end
     end
 
+    initializer 'global_roles.extend_allowance', :after => 'load_allowance' do
+      require "#{config.root}/app/models/allowance/principals"
+    end
 
     config.to_prepare do
       require_dependency 'open_project/global_roles/patches'
