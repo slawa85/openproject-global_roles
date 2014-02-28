@@ -15,9 +15,8 @@ Allowance.scope(:principals) do
 
   condition :principal_role_id_equal_principal, Allowance::Condition::PrincipalRoleIdEqualPrincipal
   condition :role_id_equal_principal_role, Allowance::Condition::RoleIdEqualPrincipalRole
+  alter_condition :member_in_project, member_in_project.or(role_id_equal_principal_role)
 
   principals.left_join(principal_roles, :before => roles)
             .on(principal_role_id_equal_principal)
-
-  member_in_project.or(role_id_equal_principal_role)
 end
