@@ -22,7 +22,11 @@ module OpenProject::GlobalRoles::Patches
     def self.included(base)
       base.class_eval do
 
-        has_many :principal_roles, :dependent => :destroy, :foreign_key => 'principal_id'
+        has_many :principal_roles,
+                 :dependent => :destroy,
+                 :foreign_key => 'principal_id',
+                 :include => [:role],
+                 :inverse_of => :principal
         has_many :global_roles, :through => :principal_roles, :source => :role
       end
     end
