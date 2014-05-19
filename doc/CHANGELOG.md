@@ -20,6 +20,11 @@ Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
 
 # Changelog
 
+## 1.0.3
+
+* `#7181` Fix: Cannot assign global role
+* Fix: Force fetching global roles to fix failing cukes
+
 ## 1.0.2
 
 * `#5357` Adapt released plugins to base on plugins functionality
